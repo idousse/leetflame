@@ -2,7 +2,7 @@
 
 # 🔥 LeetFlame
 
-**A native macOS menu-bar app that tracks your LeetCode streak, solved counts, and daily activity — at a glance, right from the menu bar.**
+**A native macOS menu-bar app that tracks your LeetCode streak, solved counts, and daily activity, at a glance, right from the menu bar.**
 
 [![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-black?logo=apple)](https://github.com/idousse/leetflame/releases/latest)
 [![Swift](https://img.shields.io/badge/Swift-SwiftUI%20%2B%20AppKit-orange?logo=swift&logoColor=white)](https://swift.org)
