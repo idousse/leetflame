@@ -9,6 +9,7 @@ DerivedData/
 
 # Generated build artifacts
 *.app
+*.dmg
 AppIcon.iconset/
 
 # Design handoff bundle (proprietary tooling, not for redistribution)

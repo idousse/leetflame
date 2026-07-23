@@ -6,6 +6,24 @@ GitHub-style contribution heatmap rendered as a flame gradient.
 
 No login required — it reads your public profile via LeetCode's GraphQL API.
 
+## Download
+
+**[⬇️ Download the latest release](https://github.com/idousse/leetflame/releases/latest)** — grab the `.dmg`, no building required.
+
+### First launch (important)
+
+LeetFlame isn't signed with a paid Apple Developer certificate, so macOS shows
+a warning the **first time** you open it. This is normal for indie apps. To open it:
+
+1. Open the `.dmg` and drag **LeetFlame** into your **Applications** folder.
+2. Open your **Applications** folder, **right-click** LeetFlame → **Open**.
+3. Click **Open** in the dialog that appears.
+
+If macOS still won't let you open it, go to **System Settings → Privacy &
+Security**, scroll down, and click **Open Anyway** next to the LeetFlame notice.
+
+You only have to do this once. After that it opens normally and can launch at login.
+
 ## Features
 
 - **Menu-bar popover** with current streak, active days, and total solved
@@ -32,7 +50,7 @@ daily reset.
 - macOS 13 (Ventura) or later
 - Swift toolchain (Xcode or Command Line Tools) to build
 
-## Build & install
+## Build from source (developers)
 
 ```bash
 # Build the .app bundle into .build/release/
@@ -40,6 +58,9 @@ daily reset.
 
 # ...or build, copy to /Applications, and (re)launch:
 ./build_app.sh --install
+
+# ...or package a distributable DMG:
+./make_dmg.sh 1.0
 ```
 
 Then open the app, click the flame in your menu bar, and enter your LeetCode
