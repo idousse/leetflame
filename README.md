@@ -13,10 +13,9 @@
 
 </div>
 
-<!--
-  Recommended: add a screenshot of the popover here for maximum impact, e.g.
-  <p align="center"><img src="docs/screenshot.png" width="380" alt="LeetFlame popover"></p>
--->
+<p align="center">
+  <img src="docs/screenshot.png" width="340" alt="LeetFlame menu-bar popover showing streak, solved counts, and a flame heatmap">
+</p>
 
 ---
 
@@ -32,13 +31,13 @@ website uses, no credentials, no account, no backend.
 
 ## Features
 
-- **Current streak, active days, and total solved** — the numbers that matter, up top
-- **Flame heatmap** — 18 weeks of submissions on a pale-yellow → deep-red intensity scale, with per-day hover tooltips
-- **Difficulty breakdown** — Easy / Medium / Hard at a glance
-- **Daily status** — clear "Solved today" / "Not solved today" indicator
+- **Current streak, active days, and total solved:** the numbers that matter, up top
+- **Flame heatmap:** 18 weeks of submissions on a pale-yellow to deep-red intensity scale, with per-day hover tooltips
+- **Difficulty breakdown:** Easy / Medium / Hard at a glance
+- **Daily status:** a clear "Solved today" / "Not solved today" indicator
 - **Auto-refresh** on a configurable interval, plus manual refresh
-- **Configurable** — popover opacity, refresh interval, launch-at-login, and an icon-only menu-bar mode
-- **Private by design** — all state lives locally; nothing leaves your machine except read-only requests to LeetCode
+- **Configurable:** popover opacity, refresh interval, launch-at-login, and an icon-only menu-bar mode
+- **Private by design:** all state lives locally, and nothing leaves your machine except read-only requests to LeetCode
 
 ## How it works
 
@@ -49,7 +48,7 @@ everything the UI needs on-device.
 A couple of details worth calling out:
 
 - **The current streak is computed locally.** LeetCode's own `streak` field
-  returns the *longest* streak of the year, not the ongoing one — so LeetFlame
+  returns the *longest* streak of the year, not the ongoing one, so LeetFlame
   walks the submission calendar backward from today to get the real current
   streak, treating an as-yet-unsolved today as pending rather than broken.
 - **Days are bucketed in UTC.** LeetCode's daily boundary is UTC midnight;
@@ -93,7 +92,7 @@ iconutil -c icns AppIcon.iconset -o Assets/AppIcon.icns
 
 ## Architecture
 
-Built with **SwiftUI + AppKit** and **zero third-party dependencies** — a menu-bar
+Built with **SwiftUI + AppKit** and **zero third-party dependencies**: a menu-bar
 `NSStatusItem` hosting a SwiftUI popover, with an async/await networking layer and
 `UserDefaults`-backed persistence.
 
