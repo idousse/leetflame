@@ -12,7 +12,7 @@ struct SettingsView: View {
                         .font(.system(size: 12))
                         .foregroundColor(Theme.textSecondary)
                     HStack {
-                        TextField("e.g. loio432", text: $usernameDraft)
+                        TextField("your LeetCode username", text: $usernameDraft)
                             .textFieldStyle(.plain)
                             .padding(EdgeInsets(top: 6, leading: 9, bottom: 6, trailing: 9))
                             .background(Color.white.opacity(0.06))

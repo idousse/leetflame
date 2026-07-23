@@ -81,7 +81,7 @@ struct ContentView: View {
                 .font(.system(size: 14))
                 .foregroundColor(Theme.textMenu)
             HStack {
-                TextField("e.g. loio432", text: $usernameInput)
+                TextField("your LeetCode username", text: $usernameInput)
                     .textFieldStyle(.roundedBorder)
                     .focused($usernameFieldFocused)
                     .onSubmit(saveUsername)
