@@ -1,100 +1,118 @@
+<div align="center">
+
 # 🔥 LeetFlame
 
-A native macOS menu-bar app that shows your LeetCode activity at a glance:
-current streak, active days, total solved, difficulty breakdown, and a
-GitHub-style contribution heatmap rendered as a flame gradient.
+**A native macOS menu-bar app that tracks your LeetCode streak, solved counts, and daily activity — at a glance, right from the menu bar.**
 
-No login required — it reads your public profile via LeetCode's GraphQL API.
+[![Platform](https://img.shields.io/badge/platform-macOS%2013%2B-black?logo=apple)](https://github.com/idousse/leetflame/releases/latest)
+[![Swift](https://img.shields.io/badge/Swift-SwiftUI%20%2B%20AppKit-orange?logo=swift&logoColor=white)](https://swift.org)
+[![Release](https://img.shields.io/github/v/release/idousse/leetflame)](https://github.com/idousse/leetflame/releases/latest)
+[![License](https://img.shields.io/github/license/idousse/leetflame)](LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/idousse/leetflame/total)](https://github.com/idousse/leetflame/releases)
 
-## Download
+[**Download**](https://github.com/idousse/leetflame/releases/latest) · [Features](#features) · [How it works](#how-it-works) · [Build from source](#build-from-source)
 
-**[⬇️ Download the latest release](https://github.com/idousse/leetflame/releases/latest)** — grab the `.dmg`, no building required.
+</div>
 
-### First launch (important)
+<!--
+  Recommended: add a screenshot of the popover here for maximum impact, e.g.
+  <p align="center"><img src="docs/screenshot.png" width="380" alt="LeetFlame popover"></p>
+-->
 
-LeetFlame isn't signed with a paid Apple Developer certificate, so macOS shows
-a warning the **first time** you open it. This is normal for indie apps. To open it:
+---
 
-1. Open the `.dmg` and drag **LeetFlame** into your **Applications** folder.
-2. Open your **Applications** folder, **right-click** LeetFlame → **Open**.
-3. Click **Open** in the dialog that appears.
+## Overview
 
-If macOS still won't let you open it, go to **System Settings → Privacy &
-Security**, scroll down, and click **Open Anyway** next to the LeetFlame notice.
+LeetFlame lives in your macOS menu bar and surfaces your LeetCode progress
+without a browser tab or a login. Click the flame and you get your current
+streak, total problems solved, a difficulty breakdown, and a GitHub-style
+contribution heatmap rendered on a warm flame gradient.
 
-You only have to do this once. After that it opens normally and can launch at login.
+It reads only your **public** LeetCode profile through the same GraphQL API the
+website uses — no credentials, no account, no backend.
 
 ## Features
 
-- **Menu-bar popover** with current streak, active days, and total solved
-- **Flame heatmap** — 18 weeks of submissions, colored on a pale-yellow → deep-red scale
-- **Difficulty breakdown** (Easy / Medium / Hard)
-- **Daily status** — "Solved today" / "Not solved today"
-- **Hover tooltips** — submission count per day
-- **Auto-refresh** on a configurable interval (5–120 min)
-- **Settings**: username, popover opacity, refresh interval, launch-at-login,
-  and an icon-only menu-bar mode
-- Everything persists locally via `UserDefaults` — no account, no backend
+- **Current streak, active days, and total solved** — the numbers that matter, up top
+- **Flame heatmap** — 18 weeks of submissions on a pale-yellow → deep-red intensity scale, with per-day hover tooltips
+- **Difficulty breakdown** — Easy / Medium / Hard at a glance
+- **Daily status** — clear "Solved today" / "Not solved today" indicator
+- **Auto-refresh** on a configurable interval, plus manual refresh
+- **Configurable** — popover opacity, refresh interval, launch-at-login, and an icon-only menu-bar mode
+- **Private by design** — all state lives locally; nothing leaves your machine except read-only requests to LeetCode
 
 ## How it works
 
-LeetFlame queries LeetCode's public GraphQL endpoint
-(`https://leetcode.com/graphql`) for `matchedUser.userCalendar` and
-`submitStatsGlobal`. The **current streak** is computed locally from the
-submission calendar (LeetCode's own `streak` field is the *year's longest*
-streak, not the current one). Days are bucketed in UTC to match LeetCode's
-daily reset.
+LeetFlame queries LeetCode's public GraphQL endpoint (`leetcode.com/graphql`)
+for the user's submission calendar and solved-count statistics, then derives
+everything the UI needs on-device.
+
+A couple of details worth calling out:
+
+- **The current streak is computed locally.** LeetCode's own `streak` field
+  returns the *longest* streak of the year, not the ongoing one — so LeetFlame
+  walks the submission calendar backward from today to get the real current
+  streak, treating an as-yet-unsolved today as pending rather than broken.
+- **Days are bucketed in UTC.** LeetCode's daily boundary is UTC midnight;
+  bucketing submissions by the local calendar would shift activity by a day in
+  most timezones, so the heatmap and streak use UTC to match the source exactly.
 
 ## Requirements
 
 - macOS 13 (Ventura) or later
-- Swift toolchain (Xcode or Command Line Tools) to build
 
-## Build from source (developers)
+## Installation
+
+1. **[Download the latest `.dmg`](https://github.com/idousse/leetflame/releases/latest)**.
+2. Open it and drag **LeetFlame** into your **Applications** folder.
+3. Launch it, click the flame 🔥 in your menu bar, and enter your LeetCode username.
+
+> **First launch:** LeetFlame is distributed outside the App Store, so on first
+> open macOS asks you to confirm it. Right-click **LeetFlame → Open**, then click
+> **Open** in the dialog (or approve it under **System Settings → Privacy &
+> Security**). This is only needed once.
+
+## Build from source
+
+Requires the Swift toolchain (Xcode or the Command Line Tools).
 
 ```bash
-# Build the .app bundle into .build/release/
-./build_app.sh
+git clone https://github.com/idousse/leetflame.git
+cd leetflame
 
-# ...or build, copy to /Applications, and (re)launch:
-./build_app.sh --install
-
-# ...or package a distributable DMG:
-./make_dmg.sh 1.0
+./build_app.sh            # build LeetFlame.app into .build/release/
+./build_app.sh --install  # build, install to /Applications, and relaunch
+./make_dmg.sh 1.0         # package a distributable .dmg
 ```
 
-Then open the app, click the flame in your menu bar, and enter your LeetCode
-username.
-
-### Regenerating the app icon
-
-The icon is drawn from a pixel-flame bitmap:
+The app icon is generated from a pixel-flame bitmap:
 
 ```bash
 swift scripts/generate_icon.swift AppIcon.iconset
 iconutil -c icns AppIcon.iconset -o Assets/AppIcon.icns
 ```
 
-## A note on distribution
+## Architecture
 
-The build uses an **ad-hoc code signature**, which is fine for personal use.
-To share the app so it opens without a Gatekeeper warning, you'd need to sign
-it with an Apple Developer ID and notarize it. Until then, other users can
-right-click the app → **Open** to bypass the warning on first launch.
-
-## Project structure
+Built with **SwiftUI + AppKit** and **zero third-party dependencies** — a menu-bar
+`NSStatusItem` hosting a SwiftUI popover, with an async/await networking layer and
+`UserDefaults`-backed persistence.
 
 | File | Responsibility |
 |---|---|
-| `LeetCodeAPI.swift` | GraphQL fetch + response parsing |
-| `StreakStore.swift` | State, persistence, streak/heatmap computation |
-| `AppDelegate.swift` | Status item, popover, settings/about windows |
+| `LeetCodeAPI.swift` | Async GraphQL request + response parsing |
+| `StreakStore.swift` | Observable state, persistence, streak & heatmap computation |
+| `AppDelegate.swift` | Status item, popover, settings/about windows, launch-at-login |
 | `ContentView.swift` | Main popover UI |
-| `HeatmapView.swift` | Contribution heatmap |
-| `SettingsView.swift` / `AboutView.swift` | Preferences and about panels |
-| `PixelFlameView.swift` | Flame logo/icon rendering |
-| `Theme.swift` | Colors, gradients, design tokens |
+| `HeatmapView.swift` | Contribution heatmap with tooltips |
+| `SettingsView.swift` · `AboutView.swift` | Preferences and about panels |
+| `PixelFlameView.swift` | Flame logo & menu-bar icon rendering |
+| `Theme.swift` | Colors, gradients, and design tokens |
 
 ## License
 
-[MIT](LICENSE) © Ioann Dousse
+Released under the [MIT License](LICENSE) © Ioann Dousse.
+
+<div align="center">
+<sub>Not affiliated with LeetCode. Reads only public profile data.</sub>
+</div>
