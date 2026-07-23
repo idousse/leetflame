@@ -8,7 +8,6 @@
 [![Swift](https://img.shields.io/badge/Swift-SwiftUI%20%2B%20AppKit-orange?logo=swift&logoColor=white)](https://swift.org)
 [![Release](https://img.shields.io/github/v/release/idousse/leetflame)](https://github.com/idousse/leetflame/releases/latest)
 [![License](https://img.shields.io/github/license/idousse/leetflame)](LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/idousse/leetflame/total)](https://github.com/idousse/leetflame/releases)
 
 [**Download**](https://github.com/idousse/leetflame/releases/latest) · [Features](#features) · [How it works](#how-it-works) · [Build from source](#build-from-source)
 
