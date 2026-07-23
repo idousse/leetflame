@@ -28,7 +28,7 @@ streak, total problems solved, a difficulty breakdown, and a GitHub-style
 contribution heatmap rendered on a warm flame gradient.
 
 It reads only your **public** LeetCode profile through the same GraphQL API the
-website uses — no credentials, no account, no backend.
+website uses, no credentials, no account, no backend.
 
 ## Features
 
