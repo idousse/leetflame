@@ -1,5 +1,7 @@
 import SwiftUI
 
+private func s(_ v: CGFloat) -> CGFloat { Theme.UI.s(v) }
+
 struct HeatmapView: View {
     let data: HeatmapData
 
@@ -30,46 +32,46 @@ struct HeatmapView: View {
     }
 
     var body: some View {
-        HStack(spacing: 8) {
-            VStack(alignment: .trailing, spacing: 4) {
-                Color.clear.frame(height: 16)
+        HStack(spacing: s(8)) {
+            VStack(alignment: .trailing, spacing: s(4)) {
+                Color.clear.frame(height: s(16))
                 ForEach(0..<7, id: \.self) { row in
                     Text(dayLabel(row))
-                        .font(.system(size: 10))
+                        .font(.system(size: s(10)))
                         .foregroundColor(Theme.textAxis)
-                        .frame(height: 17, alignment: .center)
+                        .frame(height: s(17), alignment: .center)
                 }
             }
-            .frame(width: 10)
+            .frame(width: s(10))
             .fixedSize(horizontal: true, vertical: false)
-            .padding(.trailing, 7)
+            .padding(.trailing, s(7))
 
             VStack(spacing: 0) {
                 // Same column widths as the grid below, labels overflowing to the right.
-                HStack(spacing: 4) {
+                HStack(spacing: s(4)) {
                     ForEach(data.monthLabels.indices, id: \.self) { i in
                         Color.clear
-                            .frame(width: 17, height: 16)
+                            .frame(width: s(17), height: s(16))
                             .overlay(alignment: .leading) {
                                 if let label = data.monthLabels[i] {
                                     Text(label)
-                                        .font(.system(size: 10))
+                                        .font(.system(size: s(10)))
                                         .foregroundColor(Theme.textAxis)
                                         .fixedSize()
                                 }
                             }
                     }
                 }
-                .frame(height: 16)
+                .frame(height: s(16))
 
-                HStack(spacing: 4) {
+                HStack(spacing: s(4)) {
                     ForEach(data.columns.indices, id: \.self) { col in
-                        VStack(spacing: 4) {
+                        VStack(spacing: s(4)) {
                             ForEach(0..<7, id: \.self) { row in
                                 let cell = data.columns[col][row]
-                                RoundedRectangle(cornerRadius: 3)
+                                RoundedRectangle(cornerRadius: s(3))
                                     .fill(cell.isFuture ? Color.clear : color(for: cell.level))
-                                    .frame(width: 17, height: 17)
+                                    .frame(width: s(17), height: s(17))
                                     .help(cell.isFuture ? "" : tooltip(for: cell))
                             }
                         }

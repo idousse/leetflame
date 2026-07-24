@@ -23,11 +23,11 @@ struct PixelFlameView: View {
 
 struct HeaderIconTile: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 9)
+        RoundedRectangle(cornerRadius: Theme.UI.s(9))
             .fill(Theme.iconTileGradient)
-            .frame(width: 32, height: 32)
+            .frame(width: Theme.UI.s(32), height: Theme.UI.s(32))
             .shadow(color: .black.opacity(0.35), radius: 1.5, x: 0, y: 1)
-            .overlay(PixelFlameView(cellSize: 2.6, gap: 1))
+            .overlay(PixelFlameView(cellSize: Theme.UI.s(2.6), gap: Theme.UI.s(1)))
     }
 }
 

@@ -1,6 +1,14 @@
 import SwiftUI
 
 enum Theme {
+    /// Global UI scale for the popover. 1.0 = original size; lower shrinks
+    /// every dimension (fonts, padding, heatmap cells) uniformly.
+    enum UI {
+        static let scale: CGFloat = 0.8
+        /// Scales a dimension by the global factor.
+        static func s(_ value: CGFloat) -> CGFloat { value * scale }
+    }
+
     static let textPrimary = Color.white
     static let textMenu = Color(hex: 0xE6E8EC)
     static let textSecondary = Color(hex: 0x9AA1AD)

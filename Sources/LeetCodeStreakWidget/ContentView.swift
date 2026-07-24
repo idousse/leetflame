@@ -1,6 +1,8 @@
 import SwiftUI
 import AppKit
 
+private func s(_ v: CGFloat) -> CGFloat { Theme.UI.s(v) }
+
 struct ContentView: View {
     @ObservedObject var store: StreakStore
     var onOpenSettings: () -> Void
@@ -12,42 +14,42 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
-                .padding(.bottom, 20)
+                .padding(.bottom, s(20))
 
             if store.username.trimmingCharacters(in: .whitespaces).isEmpty {
                 onboardingPrompt
-                    .padding(.bottom, 20)
+                    .padding(.bottom, s(20))
             } else if store.isLoading && store.stats == nil {
                 ProgressView()
-                    .padding(.bottom, 20)
+                    .padding(.bottom, s(20))
             } else if store.errorMessage != nil, store.stats == nil {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: s(10)) {
                     Text("Couldn't reach LeetCode. Double-check the username and your connection.")
-                        .font(.system(size: 13))
+                        .font(.system(size: s(13)))
                         .foregroundColor(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
                     Button(action: { store.refresh() }) {
                         Label("Try again", systemImage: "arrow.clockwise")
-                            .font(.system(size: 13, weight: .medium))
+                            .font(.system(size: s(13), weight: .medium))
                     }
                     .buttonStyle(.plain)
                     .foregroundColor(Theme.flameL2)
                     .disabled(store.isLoading)
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, s(20))
             } else if let stats = store.stats {
                 statsRow(stats)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, s(20))
                 difficultyRow(stats)
-                    .padding(.bottom, 18)
+                    .padding(.bottom, s(18))
                 HeatmapView(data: store.heatmap)
-                    .padding(.bottom, 18)
+                    .padding(.bottom, s(18))
                 dailyStatusRow
-                    .padding(.bottom, 6)
+                    .padding(.bottom, s(6))
                 freshnessRow
             }
 
-            Divider().overlay(Theme.dividerColor).padding(.vertical, 12)
+            Divider().overlay(Theme.dividerColor).padding(.vertical, s(12))
 
             if !store.username.trimmingCharacters(in: .whitespaces).isEmpty {
                 MenuRow.profileRow(handle: "@\(store.username)") {
@@ -59,13 +61,13 @@ struct ContentView: View {
             MenuRow(title: "Settings", action: onOpenSettings)
             MenuRow(title: "About LeetFlame", action: onOpenAbout)
 
-            Divider().overlay(Theme.dividerColor).padding(.vertical, 12)
+            Divider().overlay(Theme.dividerColor).padding(.vertical, s(12))
 
             MenuRow(title: "Quit", action: onQuit)
-                .padding(.bottom, 4)
+                .padding(.bottom, s(4))
         }
-        .padding(EdgeInsets(top: 22, leading: 22, bottom: 14, trailing: 22))
-        .frame(width: 440)
+        .padding(EdgeInsets(top: s(22), leading: s(22), bottom: s(14), trailing: s(22)))
+        .frame(width: s(440))
         .background(PopoverBackground(opacity: store.opacity))
         .foregroundColor(Theme.textPrimary)
         .onAppear {
@@ -77,18 +79,18 @@ struct ContentView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 11) {
+        HStack(spacing: s(11)) {
             HeaderIconTile()
             Text("LeetFlame")
-                .font(.system(size: 19, weight: .semibold))
+                .font(.system(size: s(19), weight: .semibold))
                 .tracking(-0.2)
         }
     }
 
     private var onboardingPrompt: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: s(10)) {
             Text("Enter your LeetCode username to get started")
-                .font(.system(size: 14))
+                .font(.system(size: s(14)))
                 .foregroundColor(Theme.textMenu)
             HStack {
                 TextField("your LeetCode username", text: $usernameInput)
@@ -110,21 +112,21 @@ struct ContentView: View {
     }
 
     private func statsRow(_ stats: LeetCodeStats) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: s(8)) {
             statColumn {
                 Text("\(store.currentStreak)")
-                    .font(.system(size: 34, weight: .bold))
+                    .font(.system(size: s(34), weight: .bold))
                     .tracking(-1)
                     .foregroundStyle(Theme.streakGradient)
             } label: { "Streak" }
             statColumn {
                 Text("\(stats.totalActiveDays)")
-                    .font(.system(size: 34, weight: .bold))
+                    .font(.system(size: s(34), weight: .bold))
                     .tracking(-1)
             } label: { "Active days" }
             statColumn {
                 Text("\(stats.totalSolved)")
-                    .font(.system(size: 34, weight: .bold))
+                    .font(.system(size: s(34), weight: .bold))
                     .tracking(-1)
             } label: { "Solved" }
         }
@@ -132,33 +134,33 @@ struct ContentView: View {
 
     @ViewBuilder
     private func statColumn<Content: View>(@ViewBuilder content: () -> Content, label: () -> String) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: s(6)) {
             content()
             Text(label())
-                .font(.system(size: 13))
+                .font(.system(size: s(13)))
                 .foregroundColor(Theme.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func difficultyRow(_ stats: LeetCodeStats) -> some View {
-        HStack(spacing: 24) {
+        HStack(spacing: s(24)) {
             difficultyItem("Easy", stats.easySolved)
             difficultyItem("Medium", stats.mediumSolved)
             difficultyItem("Hard", stats.hardSolved)
         }
-        .font(.system(size: 14.5))
+        .font(.system(size: s(14.5)))
     }
 
     private func difficultyItem(_ label: String, _ count: Int) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 7) {
+        HStack(alignment: .firstTextBaseline, spacing: s(7)) {
             Text(label).foregroundColor(Theme.difficultyLabel)
             Text("\(count)").fontWeight(.bold)
         }
     }
 
     private var freshnessRow: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: s(6)) {
             if store.errorMessage != nil, store.stats != nil {
                 Text("Couldn't refresh · showing saved data")
                     .foregroundColor(Theme.flameL3)
@@ -167,11 +169,11 @@ struct ContentView: View {
                     .foregroundColor(Theme.textTertiary)
             }
         }
-        .font(.system(size: 11))
+        .font(.system(size: s(11)))
     }
 
     private var dailyStatusRow: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: s(10)) {
             if store.solvedToday {
                 StatusRing(symbol: "checkmark", color: Theme.flameL1)
                 Text("Solved today")
@@ -184,7 +186,7 @@ struct ContentView: View {
             Spacer()
             refreshButton
         }
-        .font(.system(size: 15))
+        .font(.system(size: s(15)))
     }
 
     private var refreshButton: some View {
@@ -193,12 +195,12 @@ struct ContentView: View {
                 ProgressView()
                     .controlSize(.small)
                     .scaleEffect(0.7)
-                    .frame(width: 18, height: 18)
+                    .frame(width: s(18), height: s(18))
             } else {
                 Image(systemName: "arrow.clockwise")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: s(13), weight: .semibold))
                     .foregroundColor(Theme.textTertiary)
-                    .frame(width: 18, height: 18)
+                    .frame(width: s(18), height: s(18))
             }
         }
         .buttonStyle(.plain)
@@ -212,12 +214,12 @@ private struct StatusRing: View {
     let color: Color
     var body: some View {
         ZStack {
-            Circle().stroke(color, lineWidth: 2)
+            Circle().stroke(color, lineWidth: s(2))
             Image(systemName: symbol)
-                .font(.system(size: 11, weight: .black))
+                .font(.system(size: s(11), weight: .black))
                 .foregroundColor(color)
         }
-        .frame(width: 21, height: 21)
+        .frame(width: s(21), height: s(21))
     }
 }
 
@@ -235,26 +237,26 @@ private struct MenuRow: View {
     var body: some View {
         Button(action: action) {
             HStack {
-                VStack(alignment: .leading, spacing: 1) {
+                VStack(alignment: .leading, spacing: s(1)) {
                     Text(title)
-                        .font(.system(size: 15))
+                        .font(.system(size: s(15)))
                         .foregroundColor(Theme.textMenu)
                     if let subtitle {
                         Text(subtitle)
-                            .font(.system(size: 12.5))
+                            .font(.system(size: s(12.5)))
                             .foregroundColor(Theme.textTertiary)
                     }
                 }
                 Spacer()
                 if let trailingGlyph {
                     Image(systemName: trailingGlyph)
-                        .font(.system(size: 13))
+                        .font(.system(size: s(13)))
                         .foregroundColor(Theme.textAxis)
                 }
             }
-            .padding(EdgeInsets(top: 9, leading: 10, bottom: 9, trailing: 10))
+            .padding(EdgeInsets(top: s(9), leading: s(10), bottom: s(9), trailing: s(10)))
             .background(hovering ? Theme.hoverOverlay : Color.clear)
-            .cornerRadius(9)
+            .cornerRadius(s(9))
         }
         .buttonStyle(.plain)
         .onHover { hovering = $0 }
@@ -268,18 +270,18 @@ private struct PopoverBackground: View {
             // ImageRenderer (screenshot mode) can't capture an NSVisualEffectView,
             // so use an opaque approximation of the blurred surface instead.
             if ScreenshotMode.isActive {
-                RoundedRectangle(cornerRadius: 18)
+                RoundedRectangle(cornerRadius: s(18))
                     .fill(Color(hex: 0x24262C))
             } else {
                 VisualEffectBlur()
             }
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: s(18))
                 .fill(Color(hex: 0x2C2E34, alpha: opacity))
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: s(18))
                 .strokeBorder(Color.white.opacity(0.10), lineWidth: 1)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-        .shadow(color: .black.opacity(0.5), radius: 40, x: 0, y: 30)
+        .clipShape(RoundedRectangle(cornerRadius: s(18)))
+        .shadow(color: .black.opacity(0.5), radius: s(40), x: 0, y: s(30))
     }
 }
 

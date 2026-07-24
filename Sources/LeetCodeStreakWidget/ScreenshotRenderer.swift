@@ -16,7 +16,7 @@ enum ScreenshotRenderer {
             Color(hex: 0x0E0E10)
             ContentView(store: store, onOpenSettings: {}, onOpenAbout: {}, onQuit: {})
         }
-        .frame(width: 440)
+        .frame(width: Theme.UI.s(440))
         .fixedSize()
 
         let renderer = ImageRenderer(content: view)
