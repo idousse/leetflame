@@ -1,6 +1,7 @@
 import SwiftUI
 
 private func s(_ v: CGFloat) -> CGFloat { Theme.UI.s(v) }
+private func f(_ v: CGFloat) -> CGFloat { Theme.UI.f(v) }
 
 struct HeatmapView: View {
     let data: HeatmapData
@@ -37,7 +38,7 @@ struct HeatmapView: View {
                 Color.clear.frame(height: s(16))
                 ForEach(0..<7, id: \.self) { row in
                     Text(dayLabel(row))
-                        .font(.system(size: s(10)))
+                        .font(.system(size: f(10)))
                         .foregroundColor(Theme.textAxis)
                         .frame(height: s(17), alignment: .center)
                 }
@@ -55,7 +56,7 @@ struct HeatmapView: View {
                             .overlay(alignment: .leading) {
                                 if let label = data.monthLabels[i] {
                                     Text(label)
-                                        .font(.system(size: s(10)))
+                                        .font(.system(size: f(10)))
                                         .foregroundColor(Theme.textAxis)
                                         .fixedSize()
                                 }

@@ -5,8 +5,13 @@ enum Theme {
     /// every dimension (fonts, padding, heatmap cells) uniformly.
     enum UI {
         static let scale: CGFloat = 0.8
-        /// Scales a dimension by the global factor.
+        /// Fonts scale less aggressively than layout so text stays readable
+        /// in the compact popover.
+        static let fontScale: CGFloat = 0.9
+        /// Scales a layout dimension (padding, frames, cells) by the global factor.
         static func s(_ value: CGFloat) -> CGFloat { value * scale }
+        /// Scales a font size by the (larger) font factor.
+        static func f(_ value: CGFloat) -> CGFloat { value * fontScale }
     }
 
     static let textPrimary = Color.white

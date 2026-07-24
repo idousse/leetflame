@@ -2,6 +2,7 @@ import SwiftUI
 import AppKit
 
 private func s(_ v: CGFloat) -> CGFloat { Theme.UI.s(v) }
+private func f(_ v: CGFloat) -> CGFloat { Theme.UI.f(v) }
 
 struct ContentView: View {
     @ObservedObject var store: StreakStore
@@ -25,12 +26,12 @@ struct ContentView: View {
             } else if store.errorMessage != nil, store.stats == nil {
                 VStack(alignment: .leading, spacing: s(10)) {
                     Text("Couldn't reach LeetCode. Double-check the username and your connection.")
-                        .font(.system(size: s(13)))
+                        .font(.system(size: f(13)))
                         .foregroundColor(Theme.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
                     Button(action: { store.refresh() }) {
                         Label("Try again", systemImage: "arrow.clockwise")
-                            .font(.system(size: s(13), weight: .medium))
+                            .font(.system(size: f(13), weight: .medium))
                     }
                     .buttonStyle(.plain)
                     .foregroundColor(Theme.flameL2)
@@ -82,7 +83,7 @@ struct ContentView: View {
         HStack(spacing: s(11)) {
             HeaderIconTile()
             Text("LeetFlame")
-                .font(.system(size: s(19), weight: .semibold))
+                .font(.system(size: f(19), weight: .semibold))
                 .tracking(-0.2)
         }
     }
@@ -90,7 +91,7 @@ struct ContentView: View {
     private var onboardingPrompt: some View {
         VStack(alignment: .leading, spacing: s(10)) {
             Text("Enter your LeetCode username to get started")
-                .font(.system(size: s(14)))
+                .font(.system(size: f(14)))
                 .foregroundColor(Theme.textMenu)
             HStack {
                 TextField("your LeetCode username", text: $usernameInput)
@@ -115,18 +116,18 @@ struct ContentView: View {
         HStack(spacing: s(8)) {
             statColumn {
                 Text("\(store.currentStreak)")
-                    .font(.system(size: s(34), weight: .bold))
+                    .font(.system(size: f(34), weight: .bold))
                     .tracking(-1)
                     .foregroundStyle(Theme.streakGradient)
             } label: { "Streak" }
             statColumn {
                 Text("\(stats.totalActiveDays)")
-                    .font(.system(size: s(34), weight: .bold))
+                    .font(.system(size: f(34), weight: .bold))
                     .tracking(-1)
             } label: { "Active days" }
             statColumn {
                 Text("\(stats.totalSolved)")
-                    .font(.system(size: s(34), weight: .bold))
+                    .font(.system(size: f(34), weight: .bold))
                     .tracking(-1)
             } label: { "Solved" }
         }
@@ -137,7 +138,7 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: s(6)) {
             content()
             Text(label())
-                .font(.system(size: s(13)))
+                .font(.system(size: f(13)))
                 .foregroundColor(Theme.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -149,7 +150,7 @@ struct ContentView: View {
             difficultyItem("Medium", stats.mediumSolved)
             difficultyItem("Hard", stats.hardSolved)
         }
-        .font(.system(size: s(14.5)))
+        .font(.system(size: f(14.5)))
     }
 
     private func difficultyItem(_ label: String, _ count: Int) -> some View {
@@ -169,7 +170,7 @@ struct ContentView: View {
                     .foregroundColor(Theme.textTertiary)
             }
         }
-        .font(.system(size: s(11)))
+        .font(.system(size: f(11)))
     }
 
     private var dailyStatusRow: some View {
@@ -186,7 +187,7 @@ struct ContentView: View {
             Spacer()
             refreshButton
         }
-        .font(.system(size: s(15)))
+        .font(.system(size: f(15)))
     }
 
     private var refreshButton: some View {
@@ -198,7 +199,7 @@ struct ContentView: View {
                     .frame(width: s(18), height: s(18))
             } else {
                 Image(systemName: "arrow.clockwise")
-                    .font(.system(size: s(13), weight: .semibold))
+                    .font(.system(size: f(13), weight: .semibold))
                     .foregroundColor(Theme.textTertiary)
                     .frame(width: s(18), height: s(18))
             }
@@ -216,7 +217,7 @@ private struct StatusRing: View {
         ZStack {
             Circle().stroke(color, lineWidth: s(2))
             Image(systemName: symbol)
-                .font(.system(size: s(11), weight: .black))
+                .font(.system(size: f(11), weight: .black))
                 .foregroundColor(color)
         }
         .frame(width: s(21), height: s(21))
@@ -239,18 +240,18 @@ private struct MenuRow: View {
             HStack {
                 VStack(alignment: .leading, spacing: s(1)) {
                     Text(title)
-                        .font(.system(size: s(15)))
+                        .font(.system(size: f(15)))
                         .foregroundColor(Theme.textMenu)
                     if let subtitle {
                         Text(subtitle)
-                            .font(.system(size: s(12.5)))
+                            .font(.system(size: f(12.5)))
                             .foregroundColor(Theme.textTertiary)
                     }
                 }
                 Spacer()
                 if let trailingGlyph {
                     Image(systemName: trailingGlyph)
-                        .font(.system(size: s(13)))
+                        .font(.system(size: f(13)))
                         .foregroundColor(Theme.textAxis)
                 }
             }
