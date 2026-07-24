@@ -20,11 +20,21 @@ struct ContentView: View {
             } else if store.isLoading && store.stats == nil {
                 ProgressView()
                     .padding(.bottom, 20)
-            } else if let error = store.errorMessage, store.stats == nil {
-                Text(error)
-                    .font(.system(size: 13))
-                    .foregroundColor(Theme.textSecondary)
-                    .padding(.bottom, 20)
+            } else if store.errorMessage != nil, store.stats == nil {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Couldn't reach LeetCode. Double-check the username and your connection.")
+                        .font(.system(size: 13))
+                        .foregroundColor(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button(action: { store.refresh() }) {
+                        Label("Try again", systemImage: "arrow.clockwise")
+                            .font(.system(size: 13, weight: .medium))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(Theme.flameL2)
+                    .disabled(store.isLoading)
+                }
+                .padding(.bottom, 20)
             } else if let stats = store.stats {
                 statsRow(stats)
                     .padding(.bottom, 20)
@@ -149,8 +159,8 @@ struct ContentView: View {
 
     private var freshnessRow: some View {
         HStack(spacing: 6) {
-            if let error = store.errorMessage, store.stats != nil {
-                Text("Refresh failed — showing older data (\(error))")
+            if store.errorMessage != nil, store.stats != nil {
+                Text("Couldn't refresh · showing saved data")
                     .foregroundColor(Theme.flameL3)
             } else if let updated = store.lastUpdated {
                 Text("Updated \(updated.formatted(date: .omitted, time: .shortened))")
@@ -171,8 +181,29 @@ struct ContentView: View {
                 Text("Not solved today")
                     .foregroundColor(Theme.textSecondary)
             }
+            Spacer()
+            refreshButton
         }
         .font(.system(size: 15))
+    }
+
+    private var refreshButton: some View {
+        Button(action: { store.refresh() }) {
+            if store.isLoading {
+                ProgressView()
+                    .controlSize(.small)
+                    .scaleEffect(0.7)
+                    .frame(width: 18, height: 18)
+            } else {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(Theme.textTertiary)
+                    .frame(width: 18, height: 18)
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(store.isLoading)
+        .help("Refresh now")
     }
 }
 
