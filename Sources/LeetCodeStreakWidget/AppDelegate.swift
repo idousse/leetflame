@@ -9,7 +9,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var aboutWindow: NSWindow?
     private let store = StreakStore()
     private var cancellable: AnyCancellable?
-    private let flameIcon = FlameIconRenderer.makeStatusIcon()
+    private let flameIconLit = FlameIconRenderer.makeStatusIcon()
+    private let flameIconDim = FlameIconRenderer.makeStatusIcon(grayscale: true)
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Hidden screenshot mode: render docs/screenshot.png and exit.
@@ -20,7 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem.button?.image = flameIcon
+        statusItem.button?.image = flameIconDim
         statusItem.button?.imagePosition = .imageLeading
         statusItem.button?.title = " –"
         statusItem.button?.action = #selector(togglePopover)
@@ -47,6 +48,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateStatusTitle() {
+        // Light the flame only once today's question is solved; dim otherwise.
+        statusItem.button?.image = store.solvedToday ? flameIconLit : flameIconDim
+
         guard store.showStreakInMenuBar else {
             statusItem.button?.title = ""
             return

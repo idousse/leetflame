@@ -33,7 +33,7 @@ struct HeaderIconTile: View {
 
 /// Renders the pixel-flame bitmap into an NSImage for use as the menu bar status item icon.
 enum FlameIconRenderer {
-    static func makeStatusIcon(cellSize: CGFloat = 2.5) -> NSImage {
+    static func makeStatusIcon(cellSize: CGFloat = 2.5, grayscale: Bool = false) -> NSImage {
         let rows = Theme.flameBitmap
         let cols = rows[0].count
         let width = CGFloat(cols) * cellSize
@@ -44,10 +44,19 @@ enum FlameIconRenderer {
             for (c, value) in row.enumerated() {
                 guard value != 0 else { continue }
                 let nsColor: NSColor
-                switch value {
-                case 1: nsColor = NSColor(red: 0xFF / 255, green: 0xD2 / 255, blue: 0x4A / 255, alpha: 1)
-                case 2: nsColor = NSColor(red: 0xFF / 255, green: 0xA1 / 255, blue: 0x16 / 255, alpha: 1)
-                default: nsColor = NSColor(red: 0xFF / 255, green: 0x5D / 255, blue: 0x3B / 255, alpha: 1)
+                if grayscale {
+                    // Dimmed monochrome flame for the "not solved today" state.
+                    switch value {
+                    case 1: nsColor = NSColor(white: 0.62, alpha: 1)
+                    case 2: nsColor = NSColor(white: 0.50, alpha: 1)
+                    default: nsColor = NSColor(white: 0.38, alpha: 1)
+                    }
+                } else {
+                    switch value {
+                    case 1: nsColor = NSColor(red: 0xFF / 255, green: 0xD2 / 255, blue: 0x4A / 255, alpha: 1)
+                    case 2: nsColor = NSColor(red: 0xFF / 255, green: 0xA1 / 255, blue: 0x16 / 255, alpha: 1)
+                    default: nsColor = NSColor(red: 0xFF / 255, green: 0x5D / 255, blue: 0x3B / 255, alpha: 1)
+                    }
                 }
                 let rect = NSRect(
                     x: CGFloat(c) * cellSize,
