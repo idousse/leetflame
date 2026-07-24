@@ -2,7 +2,7 @@
 
 <img src="docs/logo.png" width="96" alt="LeetFlame logo">
 
-# LeetFlame
+<h1>LeetFlame</h1>
 
 **A native macOS menu-bar app that tracks your LeetCode streak, solved counts, and daily activity, at a glance, right from the menu bar.**
 
