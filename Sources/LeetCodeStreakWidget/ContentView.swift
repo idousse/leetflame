@@ -234,7 +234,14 @@ private struct PopoverBackground: View {
     let opacity: Double
     var body: some View {
         ZStack {
-            VisualEffectBlur()
+            // ImageRenderer (screenshot mode) can't capture an NSVisualEffectView,
+            // so use an opaque approximation of the blurred surface instead.
+            if ScreenshotMode.isActive {
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color(hex: 0x24262C))
+            } else {
+                VisualEffectBlur()
+            }
             RoundedRectangle(cornerRadius: 18)
                 .fill(Color(hex: 0x2C2E34, alpha: opacity))
             RoundedRectangle(cornerRadius: 18)
@@ -243,6 +250,12 @@ private struct PopoverBackground: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .shadow(color: .black.opacity(0.5), radius: 40, x: 0, y: 30)
     }
+}
+
+/// Set while rendering the README screenshot so views can avoid AppKit-backed
+/// content that ImageRenderer cannot capture.
+enum ScreenshotMode {
+    static var isActive = false
 }
 
 private struct VisualEffectBlur: NSViewRepresentable {

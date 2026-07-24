@@ -12,6 +12,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let flameIcon = FlameIconRenderer.makeStatusIcon()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Hidden screenshot mode: render docs/screenshot.png and exit.
+        if let idx = CommandLine.arguments.firstIndex(of: "--render-screenshot"),
+           idx + 1 < CommandLine.arguments.count {
+            ScreenshotRenderer.run(outputPath: CommandLine.arguments[idx + 1])
+            return
+        }
+
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem.button?.image = flameIcon
         statusItem.button?.imagePosition = .imageLeading
